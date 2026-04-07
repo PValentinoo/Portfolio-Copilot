@@ -1,0 +1,216 @@
+# MVP: AI Portfolio Copilot for Saxo Bank
+
+## Overview
+
+Build an AI agent that can read my investment portfolio through the Saxo Bank API and let me chat with it in a familiar chat interface such as **Microsoft Teams**, **Slack**, or **Discord**.
+
+The agent should be able to:
+
+- Read my current portfolio and open positions
+- Fetch current or near-real-time stock prices
+- Retrieve relevant company and market news
+- Answer questions about my portfolio in natural language
+- Provide simple portfolio insights such as gain/loss, concentration, and exposure
+
+The first version should be **read-only**. No trading or order placement is included in the MVP.
+
+---
+
+## Goal
+
+Create a portfolio copilot that makes it easy to ask questions like:
+
+- "How is my portfolio doing today?"
+- "What are my biggest winners and losers?"
+- "What is my exposure to tech stocks?"
+- "Why is Novo Nordisk down today?"
+- "What news is affecting my holdings?"
+
+---
+
+## Primary Use Case
+
+I want to interact with my portfolio through a standard chat interface instead of a custom dashboard.
+
+Preferred chat channels for the MVP:
+
+- **Slack**
+- **Microsoft Teams**
+- **Discord**
+
+The assistant should work inside one of these platforms, receive user questions, call backend services, and return clear answers in chat.
+
+---
+
+## Scope of the MVP
+
+### Included
+
+- Authentication with Saxo Bank API
+- Read-only access to:
+  - portfolio summary
+  - positions
+  - balances
+  - prices
+- Retrieval of stock/company news
+- AI chat interface connected to one chat platform
+- Natural-language question answering based on live portfolio data
+- Basic portfolio analytics
+
+### Excluded
+
+- Trading or order execution
+- Rebalancing recommendations with automatic actions
+- Advanced risk modeling
+- Tax reporting
+- Full custom web dashboard
+- Multi-user support
+
+---
+
+## Core Features
+
+### 1. Portfolio Summary
+
+The agent can answer questions about:
+
+- total portfolio value
+- daily profit/loss
+- total profit/loss
+- cash balance
+- top holdings
+- biggest movers
+
+Example questions:
+
+- "What is my portfolio worth right now?"
+- "Which positions are down the most today?"
+
+---
+
+### 2. Positions and Exposure
+
+The agent can inspect holdings and explain exposure by:
+
+- stock
+- sector
+- geography
+- currency
+- concentration
+
+Example questions:
+
+- "How exposed am I to US stocks?"
+- "How much of my portfolio is in healthcare?"
+- "What are my top 5 positions?"
+
+---
+
+### 3. Price Lookup
+
+The agent can fetch market prices for instruments in the portfolio.
+
+Example questions:
+
+- "What is the current price of Apple?"
+- "How much is Novo Nordisk down today?"
+
+---
+
+### 4. News Retrieval
+
+The agent can retrieve recent company and market news related to holdings.
+
+Example questions:
+
+- "What news is affecting Tesla today?"
+- "Are there any negative headlines about my largest positions?"
+
+---
+
+### 5. AI Chat Experience
+
+The user interacts with the system through chat.
+
+The AI should:
+
+- understand portfolio-related questions
+- call the correct backend functions
+- combine data and news into a useful answer
+- clearly separate facts from interpretation
+- avoid making up numbers when data is unavailable
+
+---
+
+## Chat Interface Options
+
+## Option A: Slack
+Best choice for MVP if speed and simplicity matter.
+
+**Pros**
+- Easy bot integration
+- Good developer tooling
+- Fast to prototype
+- Clean conversational UX
+
+**Use case**
+- User sends a message in a private channel or DM
+- Bot responds with portfolio updates and insights
+
+---
+
+## Option B: Microsoft Teams
+Good choice if the product is intended for business or enterprise usage.
+
+**Pros**
+- Enterprise-friendly
+- Good fit for internal workflows
+- Familiar for corporate users
+
+**Cons**
+- Bot setup is usually more complex than Slack
+
+---
+
+## Option C: Discord
+Good for rapid testing and personal usage.
+
+**Pros**
+- Easy bot setup
+- Lightweight for experiments
+- Good developer experience
+
+**Cons**
+- Less suitable for enterprise contexts
+
+---
+
+## Recommendation for MVP
+
+Start with **Slack** for the MVP.
+
+Reasons:
+
+- easiest and fastest path to a working bot
+- good support for slash commands, threads, and app bots
+- simple user experience for conversational workflows
+
+Teams can be added later if enterprise deployment becomes important.
+
+---
+
+## High-Level Architecture
+
+```text
+User
+  ↓
+Slack / Teams / Discord Bot
+  ↓
+Backend API
+  ↓
+AI Agent Layer
+  ↓
+Tool Calls
+  ├─ Saxo Bank API
+  ├─ Market Data / Price Service
+  └─ News Service

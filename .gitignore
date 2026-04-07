@@ -1,0 +1,25 @@
+# Secrets
+.env
+credentials.json
+token.json
+saxo_token.json
+
+# Temp files
+.tmp/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
