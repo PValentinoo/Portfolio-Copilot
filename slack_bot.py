@@ -41,11 +41,28 @@ app = App(token=SLACK_BOT_TOKEN)
 _history: dict[str, list] = {}
 
 
+CONFIRM_WORDS = {"confirm", "yes", "yeah", "yep", "ok", "okay"}
+CANCEL_WORDS = {"cancel", "no", "nope", "abort", "stop"}
+
+
 def _reply_async(client, channel: str, user_id: str, text: str):
     """Run agent in a background thread so Slack's 3s ack window is never hit."""
     def run():
+        normalized = text.strip().lower()
+
+        # Intercept confirm/cancel for pending orders
+        if normalized in CONFIRM_WORDS and agent.get_pending_order(user_id):
+            result = agent.execute_pending_order(user_id)
+            client.chat_postMessage(channel=channel, text=result)
+            return
+
+        if normalized in CANCEL_WORDS and agent.get_pending_order(user_id):
+            agent.clear_pending_order(user_id)
+            client.chat_postMessage(channel=channel, text="Order cancelled.")
+            return
+
         try:
-            answer, updated = agent.ask(text, _history.get(user_id, []))
+            answer, updated = agent.ask(text, _history.get(user_id, []), user_id=user_id)
             _history[user_id] = updated[-20:]
             client.chat_postMessage(channel=channel, text=answer)
         except Exception as e:
